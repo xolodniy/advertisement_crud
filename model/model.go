@@ -39,18 +39,17 @@ func New(config config.Database) *Model {
 	}
 }
 
-func (m *Model) Migrate() error {
+func (m *Model) Migrate() {
 	tx := m.db.Begin()
 	if err := tx.Migrator().CreateTable(&Advertisement{}); err != nil {
-		logrus.WithError(err).Error("can't migrate Advertisement table")
+		logrus.WithError(err).Fatal("can't migrate Advertisement table")
 	}
 	if err := tx.Migrator().CreateTable(&Photo{}); err != nil {
-		logrus.WithError(err).Error("can't migrate Photo table")
+		logrus.WithError(err).Fatal("can't migrate Photo table")
 	}
 	if err := tx.Commit().Error; err != nil {
-		logrus.WithError(err).Error("can't commit migrate")
+		logrus.WithError(err).Fatal("can't commit migrate")
 	}
-	return nil
 }
 
 type Advertisement struct {

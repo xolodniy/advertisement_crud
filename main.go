@@ -9,6 +9,8 @@ import (
 
 func main() {
 	conf := config.New("/etc/advertisement_crud/config.json")
-	_ = model.New(conf.Database)
+	m := model.New(conf.Database)
+	m.Migrate()
+
 	logrus.Info("Hello world")
 }
