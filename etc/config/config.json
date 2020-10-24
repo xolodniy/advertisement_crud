@@ -1,4 +1,12 @@
 {
   "port": 24112,
-  "logLevel": "info"
+  "logLevel": "info",
+
+  "database": {
+    "name": "advertisement_crud",
+    "host": "db",
+    "port": 3306,
+    "user": "advertisement_crud",
+    "password": "QEU2zYILBoMAH26Q"
+  }
 }

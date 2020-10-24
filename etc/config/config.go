@@ -11,6 +11,17 @@ import (
 type Main struct {
 	Port     int    `json:"port"     binding:"min=1,max=65535"`
 	LogLevel string `json:"logLevel" binding:"required"`
+
+	Database Database
+}
+
+// Database configuration
+type Database struct {
+	Host     string `json:"host"     binding:"required"`
+	Port     int    `json:"port"     binding:"min=1,max=65535"`
+	User     string `json:"user"     binding:"required"`
+	Password string `json:"password" binding:"required"`
+	Name     string `json:"name"     binding:"required"`
 }
 
 func New(path string) *Main {

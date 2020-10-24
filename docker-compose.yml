@@ -14,6 +14,7 @@ services:
     working_dir: /go/src/advertisement_crud
     volumes:
       - .:/go/src/advertisement_crud
+      - ./etc/config/config.json:/etc/advertisement_crud/config.json
     depends_on:
       - db
     command: go run main.go
