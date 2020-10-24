@@ -1,0 +1,19 @@
+version: "3.0"
+
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_USER: "advertisement_crud"
+      MYSQL_PASSWORD: "QEU2zYILBoMAH26Q"
+      MYSQL_DATABASE: "advertisement_crud"
+      MYSQL_ROOT_PASSWORD: "pass"
+
+  server:
+    image: golang:1.14
+    working_dir: /go/src/advertisement_crud
+    volumes:
+      - .:/go/src/advertisement_crud
+    depends_on:
+      - db
+    command: go run main.go
