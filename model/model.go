@@ -38,3 +38,33 @@ func New(config config.Database) *Model {
 		db: db,
 	}
 }
+
+func (m *Model) Migrate() error {
+	tx := m.db.Begin()
+	if err := tx.Migrator().CreateTable(&Advertisement{}); err != nil {
+		logrus.WithError(err).Error("can't migrate Advertisement table")
+	}
+	if err := tx.Migrator().CreateTable(&Photo{}); err != nil {
+		logrus.WithError(err).Error("can't migrate Photo table")
+	}
+	if err := tx.Commit().Error; err != nil {
+		logrus.WithError(err).Error("can't commit migrate")
+	}
+	return nil
+}
+
+type Advertisement struct {
+	gorm.Model
+
+	Caption string
+	Price   int
+
+	Photos []Photo
+}
+
+type Photo struct {
+	gorm.Model
+
+	Body            []byte
+	AdvertisementID int
+}
