@@ -4,12 +4,13 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
+	"github.com/gin-gonic/gin/binding"
 	"github.com/sirupsen/logrus"
 )
 
 type Main struct {
-	Port     int    `json:"port"`
-	LogLevel string `json:"logLevel"`
+	Port     int    `json:"port"     binding:"min=1,max=65535"`
+	LogLevel string `json:"logLevel" binding:"required"`
 }
 
 func New(path string) *Main {
@@ -20,6 +21,10 @@ func New(path string) *Main {
 	var config Main
 	if err := json.Unmarshal(body, &config); err != nil {
 		logrus.WithError(err).Fatal("can't unmarshal config file as a json object")
+	}
+
+	if err := binding.Validator.ValidateStruct(config); err != nil {
+		logrus.WithError(err).Fatal("config validation failed")
 	}
 
 	level, err := logrus.ParseLevel(config.LogLevel)
