@@ -68,7 +68,7 @@ func (m *Model) Migrate() {
 			deleted_at TIMESTAMP NULL,
 			
 			mime TEXT NOT NULL,
-			body BLOB
+			body MEDIUMBLOB
 		);
 		`).Error
 	if err != nil {
