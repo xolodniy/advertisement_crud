@@ -17,7 +17,7 @@ type Model struct {
 }
 
 func New(config config.Database) *Model {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s",
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=true",
 		config.User,
 		config.Password,
 		config.Host,
