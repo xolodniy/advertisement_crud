@@ -14,11 +14,20 @@ type GetAdvertisementsResponse struct {
 }
 
 type Advertisement struct {
-	Caption string `json:"caption"`
-	Price   int    `json:"price"`
-	Photo   string `json:"photo"`
+	ID      int    `json:"id"      example:"144122"`
+	Caption string `json:"caption" example:"Car for sale"`
+	Price   int    `json:"price"   example:"12300"`
+	Photo   string `json:"photo"   example:"my.net/api/v1/14412"`
 }
 
+// @Summary Объявления
+// @Description Список объявлений
+// @Accept  json
+// @Produce  json
+// @Param order     query string false "Сортировка" Enums(price, created_at)
+// @Param direction query string false "Направление сортировки" Enums(asc, desc) default(desc)
+// @Success 200 {object} GetAdvertisementsResponse
+// @Router /api/v1/advertisements [get]
 func (c *Controller) getAdvertisements(ctx *gin.Context) {
 	order := strings.ToLower(ctx.DefaultQuery("order", "id"))
 	direction := strings.ToLower(ctx.DefaultQuery("direction", "desc"))
@@ -48,11 +57,12 @@ func (c *Controller) getAdvertisements(ctx *gin.Context) {
 	}
 	for i := range advertisements {
 		response.Advertisements[i] = Advertisement{
+			ID:      int(advertisements[i].ID),
 			Caption: advertisements[i].Caption,
 			Price:   advertisements[i].Price,
 		}
 		if len(advertisements[i].Photos) > 0 {
-			response.Advertisements[i].Photo = fmt.Sprintf("%s/%d", c.config.FQDN, advertisements[i].Photos[0].ID)
+			response.Advertisements[i].Photo = fmt.Sprintf("%s/photos/id%d", c.config.FQDN, advertisements[i].Photos[0].ID)
 		}
 	}
 	ctx.JSON(http.StatusOK, response)

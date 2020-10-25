@@ -44,7 +44,6 @@ func New(path string) Main {
 		logrus.Fatal("invalid 'logLevel' parameter in configuration. Available values: ", logrus.AllLevels)
 	}
 	logrus.SetLevel(level)
-	logrus.SetReportCaller(true) // adds line number to log message
 	logrus.SetFormatter(&logrus.TextFormatter{ForceColors: true})
 
 	return config
