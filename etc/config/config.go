@@ -11,6 +11,7 @@ import (
 type Main struct {
 	Port     int    `json:"port"     binding:"min=1,max=65535"`
 	LogLevel string `json:"logLevel" binding:"required"`
+	FQDN     string `json:"fqdn"     binding:"required"`
 
 	Database Database
 }
@@ -24,7 +25,7 @@ type Database struct {
 	Name     string `json:"name"     binding:"required"`
 }
 
-func New(path string) *Main {
+func New(path string) Main {
 	body, err := ioutil.ReadFile(path)
 	if err != nil {
 		logrus.WithError(err).WithField("configPath", path).Fatal("can't read config file in the selected path")
@@ -46,5 +47,5 @@ func New(path string) *Main {
 	logrus.SetReportCaller(true) // adds line number to log message
 	logrus.SetFormatter(&logrus.TextFormatter{ForceColors: true})
 
-	return &config
+	return config
 }

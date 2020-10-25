@@ -1,6 +1,7 @@
 {
   "port": 24112,
   "logLevel": "info",
+  "fqdn": "localhost:24112/api/v1",
 
   "database": {
     "name": "advertisement_crud",
