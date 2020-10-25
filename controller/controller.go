@@ -2,6 +2,8 @@ package controller
 
 import (
 	"fmt"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
 
 	"advertisement_crud/etc/common"
@@ -45,12 +47,18 @@ func respondError(ctx *gin.Context, err error) {
 	}
 }
 
-func (c *Controller) ServeHTTP() {
+func (c *Controller) InitRoutes() {
+	c.router.GET("/api/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	c.router.POST("/api/v1/advertisements", c.createAdvertisement)
 	c.router.GET("/api/v1/advertisements", c.getAdvertisements)
 	c.router.GET("/api/v1/advertisements/id:id", c.getAdvertisement)
 	c.router.POST("/api/v1/photos", c.postPhoto)
 	c.router.GET("/api/v1/photos/id:id", c.getPhoto)
+}
+
+func (c *Controller) ServeHTTP() {
+	c.InitRoutes()
 
 	srv := &http.Server{
 		Addr:    fmt.Sprint(":", c.config.Port),
@@ -59,4 +67,9 @@ func (c *Controller) ServeHTTP() {
 
 	logrus.Infof("server run on :%d", c.config.Port)
 	srv.ListenAndServe()
+}
+
+// support function for api tests
+func (c Controller) HandleRequest(w http.ResponseWriter, req *http.Request) {
+	c.router.ServeHTTP(w, req)
 }
