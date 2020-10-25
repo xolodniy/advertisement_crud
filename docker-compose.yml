@@ -17,4 +17,6 @@ services:
       - ./etc/config/config.json:/etc/advertisement_crud/config.json
     depends_on:
       - db
+    ports:
+      - 24112:24112
     command: go run main.go
