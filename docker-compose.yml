@@ -14,6 +14,7 @@ services:
     working_dir: /go/src/advertisement_crud
     volumes:
       - .:/go/src/advertisement_crud
+      - /go/src/advertisement_crud/docs  # excluded, being generated on build and should not be replaced
       - ./etc/config/config.json:/etc/advertisement_crud/config.json
     depends_on:
       - db
