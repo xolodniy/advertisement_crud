@@ -10,11 +10,12 @@ services:
       MYSQL_ROOT_PASSWORD: "pass"
 
   server:
-    image: golang:1.14
+    build: .
     working_dir: /go/src/advertisement_crud
     volumes:
       - .:/go/src/advertisement_crud
       - /go/src/advertisement_crud/docs  # excluded, being generated on build and should not be replaced
+      - /go/src/advertisement_crud/mocks # excluded, being generated on build and should not be replaced
       - ./etc/config/config.json:/etc/advertisement_crud/config.json
     depends_on:
       - db

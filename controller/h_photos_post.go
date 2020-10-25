@@ -15,6 +15,14 @@ type PostPhotoResponse struct {
 	ID int `json:"id"`
 }
 
+// @Summary Фотографии
+// @Description Загрузить фотографию
+// @Description В ответе вернется идентификатор загруженной фотографии, который можно прикрепить к создаваемому объявлению
+// @Accept  mpfd
+// @Produce  json
+// @Param photo formData file true "Фотография"
+// @Success 200 {object} PostPhotoResponse
+// @Router /api/v1/photos [post]
 func (c *Controller) postPhoto(ctx *gin.Context) {
 	errWrongFile := errors.New("ошибка передачи файла")
 
@@ -23,7 +31,7 @@ func (c *Controller) postPhoto(ctx *gin.Context) {
 		respondError(ctx, errWrongFile)
 		return
 	}
-	var maxFileSizeMB = 10
+	var maxFileSizeMB = 15
 	if form.Size > int64(maxFileSizeMB<<20) {
 		respondError(ctx, fmt.Errorf("Максимальный размер файла не должен превышать %d мегабайт", maxFileSizeMB))
 		return

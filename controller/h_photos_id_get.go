@@ -8,6 +8,13 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// @Summary Фотографии
+// @Description Получить фоторафию по идентификатору
+// @Description TODO: отображать полученную фотографию в документации
+// @Accept  json
+// @Produce  image/jpeg
+// @Param id path int true "Идентификатор фотографии" default(3)
+// @Router /api/v1/photos/id{id} [get]
 func (c *Controller) getPhoto(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil || id < 1 {
